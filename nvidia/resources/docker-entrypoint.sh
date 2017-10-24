@@ -3,7 +3,7 @@ set -eo pipefail
 
 EPOOLS="/home/claymore/epools.txt"
 
-rm $EPOOLS || true
+[ -f $EPOOLS ] && rm $EPOOLS || true
 
 CARDS=`nvidia-smi --query-gpu=memory.used,index,gpu_uuid --format=csv,noheader,nounits | tr -d ' '`
 

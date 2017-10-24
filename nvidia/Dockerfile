@@ -1,6 +1,4 @@
-FROM abuisine/nvidia:17.04-375.66
-
-LABEL maintainer="Alexandre Buisine <alexandrejabuisine@gmail.com>"
+FROM wesparish/nvidia:17.04-375.66
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -qq update \
  && apt-get install -yqq --no-install-recommends \
@@ -20,9 +18,10 @@ ENV GPU_FORCE_64BIT_PTR=0 GPU_MAX_HEAP_SIZE=100 GPU_USE_SYNC_OBJECTS=1 GPU_MAX_A
 COPY resources/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/*
 
-ENV WALLET_ADDRESS="0x8d3c63a5121d346642e83b69a57a959abfb73812" \
- HOSTS="eu1.ethermine.org:4444:x:1:0 eu2.ethermine.org:4444:x:1:0"
+ENV WALLET_ADDRESS="0x559db2865e1f099d63037c3ae4a6c8cc1106c819" \
+ HOSTS="eth-us-east1.nanopool.org:9999:x:0:0 eth-us-west1.nanopool.org:9999:x:0:0"
 #HOSTS should be setted as follows: <hostname>:<port>:<password>:<esm>:<allpools>
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-CMD ["-mode", "1", "-ftime", "10"]
+#CMD ["-mode", "1", "-ftime", "10", "-tt", "70", "-fanmin", "50", "-tstop", "90"]
+CMD ["-mode", "1", "-ftime", "10", "-tstop", "90"]
