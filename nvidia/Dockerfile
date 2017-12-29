@@ -21,4 +21,4 @@ ENV WALLET_ADDRESS="0x559db2865e1f099d63037c3ae4a6c8cc1106c819" \
 #HOSTS should be setted as follows: <hostname>:<port>:<password>:<esm>:<allpools>
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-CMD ["-mode", "1", "-ftime", "10" ]
+CMD ["-mode", "1", "-ftime", "10", "-fanmin", "50", "-tt", "70", "-tstop", "90"  ]
