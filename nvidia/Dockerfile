@@ -5,13 +5,17 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -qq update \
 	vim-tiny \
 	flip \
 	libcurl3 \
+        curl \
+        ca-certificates  \
  && apt-get -yqq clean \
  && rm -rf /var/lib/apt/lists/*
 
 ENV CLAYMORE_VERSION="10.0"
 
 WORKDIR /home/claymore
-ADD https://github.com/nanopool/Claymore-Dual-Miner/releases/download/v${CLAYMORE_VERSION}/Claymore.s.Dual.Ethereum.Decred_Siacoin_Lbry_Pascal.AMD.NVIDIA.GPU.Miner.v${CLAYMORE_VERSION}.-.LINUX.tar.gz .
+RUN curl -Lso claymore.tar.gz https://github.com/nanopool/Claymore-Dual-Miner/releases/download/v${CLAYMORE_VERSION}/Claymore.s.Dual.Ethereum.Decred_Siacoin_Lbry_Pascal.AMD.NVIDIA.GPU.Miner.v${CLAYMORE_VERSION}.-.LINUX.tar.gz && \
+    tar -xzf claymore.tar.gz && \
+    rm -f claymore.tar.gz
 
 COPY resources/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/*
