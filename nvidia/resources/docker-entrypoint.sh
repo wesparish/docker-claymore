@@ -27,7 +27,7 @@ do
 		echo "POOL: ${POOL}, WALLET: ${WALLET_ADDRESS}.${HOSTNAME}, PSW: ${PSW}, ESM: ${ESM}, ALLPOOLS: ${ALLPOOLS}" >> $EPOOLS
 	done
 
-	exec /home/claymore/ethdcrminer64 $@
+	exec /home/claymore/ethdcrminer64 $CLAYMORE_OPTS $@
 done
 
 echo "no card available waiting 30s ..."
