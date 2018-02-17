@@ -10,11 +10,16 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -qq update \
  && apt-get -yqq clean \
  && rm -rf /var/lib/apt/lists/*
 
-ENV CLAYMORE_VERSION="10.0"
+#ENV CLAYMORE_VERSION="10.0"
 
 WORKDIR /home/claymore
-RUN curl -Lso claymore.tar.gz https://github.com/nanopool/Claymore-Dual-Miner/releases/download/v${CLAYMORE_VERSION}/Claymore.s.Dual.Ethereum.Decred_Siacoin_Lbry_Pascal.AMD.NVIDIA.GPU.Miner.v${CLAYMORE_VERSION}.-.LINUX.tar.gz && \
+#RUN curl -Lso claymore.tar.gz https://github.com/nanopool/Claymore-Dual-Miner/releases/download/v${CLAYMORE_VERSION}/Claymore.s.Dual.Ethereum.Decred_Siacoin_Lbry_Pascal.AMD.NVIDIA.GPU.Miner.v${CLAYMORE_VERSION}.-.LINUX.tar.gz && \
+#    tar -xzf claymore.tar.gz && \
+#    rm -f claymore.tar.gz
+
+RUN curl -Lso claymore.tar.gz "https://nexus.cowtownt.org/repository/mining-repo/Claymore's%20Dual%20Ethereum+Decred_Siacoin_Lbry_Pascal_Blake2s_Keccak%20AMD+NVIDIA%20GPU%20Miner%20v11.0%20-%20LINUX.tar.gz" && \
     tar -xzf claymore.tar.gz && \
+    mv Claymore*/* . && \
     rm -f claymore.tar.gz
 
 # ENV GPU_FORCE_64BIT_PTR=0 GPU_MAX_HEAP_SIZE=100 GPU_USE_SYNC_OBJECTS=1 GPU_MAX_ALLOC_PERCENT=100 GPU_SINGLE_ALLOC_PERCENT=100
