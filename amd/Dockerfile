@@ -17,7 +17,7 @@ WORKDIR /home/claymore
 #    tar -xzf claymore.tar.gz && \
 #    rm -f claymore.tar.gz
 
-RUN curl -Lso claymore.tar.gz "https://nexus.cowtownt.org/repository/mining-repo/Claymore's%20Dual%20Ethereum+Decred_Siacoin_Lbry_Pascal_Blake2s_Keccak%20AMD+NVIDIA%20GPU%20Miner%20v11.0%20-%20LINUX.tar.gz" && \
+RUN curl -Lso claymore.tar.gz "https://nexus.cowtownt.org/repository/mining-repo/claymore/Claymore's%20Dual%20Ethereum+Decred_Siacoin_Lbry_Pascal_Blake2s_Keccak%20AMD+NVIDIA%20GPU%20Miner%20v11.5%20-%20LINUX.tar.gz" && \
     tar -xzf claymore.tar.gz && \
     mv Claymore*/* . && \
     rm -f claymore.tar.gz
