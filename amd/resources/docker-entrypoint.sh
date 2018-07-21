@@ -1,9 +1,9 @@
-#!/usr/bin/env bash
-set -eo pipefail
+#!/bin/bash
+#set -eo pipefail
 
 EPOOLS="/home/claymore/epools.txt"
 
-HOSTNAME=$(curl -s rancher-metadata/latest/self/host/name | cut -d'.' -f1)
+#HOSTNAME=$(curl -s --connect-timeout 2 rancher-metadata/latest/self/host/name | cut -d'.' -f1)
 HOSTNAME=${HOSTNAME:-localhost}
 
 rm $EPOOLS || true
@@ -25,7 +25,7 @@ SHORT_UUID="amd"
 		PSW=`echo $HOST | cut -d: -f3`
 		ESM=`echo $HOST | cut -d: -f4`
 		ALLPOOLS=`echo $HOST | cut -d: -f5`
-		echo "POOL: ${POOL}, WALLET: ${WALLET_ADDRESS}.${HOSTNAME}, PSW: ${PSW}, ESM: ${ESM}, ALLPOOLS: ${ALLPOOLS}" >> $EPOOLS
+		echo "POOL: ${POOL}, WALLET: ${WALLET_ADDRESS}.${NODE_NAME}, PSW: ${PSW}, ESM: ${ESM}, ALLPOOLS: ${ALLPOOLS}" >> $EPOOLS
 	done
 
 	exec /home/claymore/ethdcrminer64 $CLAYMORE_OPTS $@

@@ -1,4 +1,4 @@
 #!/bin/bash
 
-docker build -t wesparish/claymore:nvidia-v10.0-1.2 . && \
-  docker push wesparish/claymore:nvidia-v10.0-1.2 
+docker build -t wesparish/claymore:nvidia-v11.5-1.3 . && \
+  docker push wesparish/claymore:nvidia-v11.5-1.3 

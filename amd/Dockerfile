@@ -1,13 +1,17 @@
-FROM wesparish/amd:17.04-17.10
+FROM wesparish/amd:18.04-17.10
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -qq update \
- && apt-get install -yqq --no-install-recommends \
+#RUN DEBIAN_FRONTEND=noninteractive apt-get -qq update \
+# && apt-get install -yqq --no-install-recommends \
+RUN apt-get update \
+ && apt-get install -y \
 	vim-tiny \
 	flip \
-	libcurl3 \
-        curl \
         ca-certificates \
- && apt-get -yqq clean \
+        iputils-ping \
+        libssl-dev \
+        libssl1.0.0 \
+        curl \
+ && apt-get -y clean \
  && rm -rf /var/lib/apt/lists/*
 
 #ENV CLAYMORE_VERSION="10.0"
@@ -27,6 +31,12 @@ RUN curl -Lso claymore.tar.gz "https://nexus.cowtownt.org/repository/mining-repo
 COPY resources/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/*
 
+RUN apt-get update \
+ && apt-get install -y \
+        libcurl3 \
+ && apt-get -y clean \
+ && rm -rf /var/lib/apt/lists/*
+
 ENV WALLET_ADDRESS="0x559db2865e1f099d63037c3ae4a6c8cc1106c819" \
  HOSTS="eth-us-east1.nanopool.org:9999:x:0:0 eth-us-west1.nanopool.org:9999:x:0:0"
 #HOSTS should be setted as follows: <hostname>:<port>:<password>:<esm>:<allpools>
@@ -36,6 +46,10 @@ EXPOSE 3333
 
 LABEL miner="true"
 
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-#CMD ["-mode", "1", "-ftime", "10", "-tt", "70", "-fanmin", "50", "-tstop", "90"]
-CMD ["-mode", "1", "-ftime", "10", "-fanmin", "50", "-tt", "70", "-tstop", "90" ]
+RUN chown -R root:root /home/claymore/ && \
+    chmod 755 /home/claymore/ethdcrminer64 && \
+    chmod u+s /home/claymore/ethdcrminer64
+
+#ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+#CMD ["-mode", "1", "-ftime", "10", "-fanmin", "50", "-tt", "70", "-tstop", "90" ]
+CMD ["/usr/local/bin/docker-entrypoint.sh", "-mode", "1", "-ftime", "10", "-fanmin", "50", "-tt", "70", "-tstop", "90" ]
