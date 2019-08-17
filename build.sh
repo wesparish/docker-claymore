@@ -1,18 +1,21 @@
 #!/bin/bash
 
 registry=${1:-wesparish}
-imagename=$(basename $PWD)
+imagename=claymore
 imagename=${2:-$imagename}
+
+privateRegistry=${3:-nexus-jamie-docker.elastiscale.net}
 
 for dockerfile in $(find  -name Dockerfile); do
   versionvariant=$(dirname $dockerfile | sed -e 's|^./||g' -e 's|/|-|g')
   echo Building variant: $versionvariant
   echo docker build -t $registry/${imagename}:${versionvariant} $(dirname $dockerfile)
-  docker build -t $registry/$versionvariant $(dirname $dockerfile)
+  docker build -t $registry/${imagename}:$versionvariant $(dirname $dockerfile)
   echo docker push $registry/${imagename}:${versionvariant}
-  docker push $registry/$versionvariant
-  echo docker tag $registry/${imagename}:${versionvariant} nexus.cowtownt.org:5010/${imagename}:${versionvariant}
-  docker tag $registry/$versionvariant nexus.cowtownt.org:5010/$versionvariant
-  echo docker push nexus.cowtownt.org:5010/${imagename}:${versionvariant}
-  docker push nexus.cowtownt.org:5010/$versionvariant
+  docker push $registry/${imagename}:$versionvariant
+
+  echo docker tag $registry/${imagename}:${versionvariant} ${privateRegistry}/${imagename}:${versionvariant}
+  docker tag $registry/${imagename}:$versionvariant ${privateRegistry}/${imagename}:$versionvariant
+  echo docker push ${privateRegistry}/${imagename}:${versionvariant}
+  docker push ${privateRegistry}/${imagename}:$versionvariant
 done

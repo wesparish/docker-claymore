@@ -1,4 +1,6 @@
-FROM wesparish/amd:18.04-17.10
+FROM wesparish/amdgpu-pro-18.50-708488-ubuntu18.04
+
+USER root
 
 #RUN DEBIAN_FRONTEND=noninteractive apt-get -qq update \
 # && apt-get install -yqq --no-install-recommends \
@@ -17,11 +19,9 @@ RUN apt-get update \
 #ENV CLAYMORE_VERSION="10.0"
 
 WORKDIR /home/claymore
-#RUN curl -Lso claymore.tar.gz https://github.com/nanopool/Claymore-Dual-Miner/releases/download/v${CLAYMORE_VERSION}/Claymore.s.Dual.Ethereum.Decred_Siacoin_Lbry_Pascal.AMD.NVIDIA.GPU.Miner.v${CLAYMORE_VERSION}.-.LINUX.tar.gz && \
-#    tar -xzf claymore.tar.gz && \
-#    rm -f claymore.tar.gz
 
-RUN curl -Lso claymore.tar.gz "https://nexus.cowtownt.org/repository/mining-repo/claymore/Claymore's%20Dual%20Ethereum+Decred_Siacoin_Lbry_Pascal_Blake2s_Keccak%20AMD+NVIDIA%20GPU%20Miner%20v11.5%20-%20LINUX.tar.gz" && \
+#RUN curl -Lso claymore.tar.gz "https://nexus.cowtownt.org/repository/mining-repo/claymore/Claymore's%20Dual%20Ethereum+Decred_Siacoin_Lbry_Pascal_Blake2s_Keccak%20AMD+NVIDIA%20GPU%20Miner%20v11.9%20-%20LINUX.tar.gz/Claymore's%20Dual%20Ethereum+Decred_Siacoin_Lbry_Pascal_Blake2s_Keccak%20AMD+NVIDIA%20GPU%20Miner%20v11.9%20-%20LINUX.tar.gz" && \
+RUN curl -Lso claymore.tar.gz "https://nexus-jamie.elastiscale.net/repository/mining-repo/claymore/Claymore's%20Dual%20Ethereum%20AMD+NVIDIA%20GPU%20Miner%20v14.7%20-%20LINUX.tar.gz" && \
     tar -xzf claymore.tar.gz && \
     mv Claymore*/* . && \
     rm -f claymore.tar.gz
@@ -50,6 +50,12 @@ RUN chown -R root:root /home/claymore/ && \
     chmod 755 /home/claymore/ethdcrminer64 && \
     chmod u+s /home/claymore/ethdcrminer64
 
+# Add Tini
+ENV TINI_VERSION v0.18.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "--"]
+
 #ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 #CMD ["-mode", "1", "-ftime", "10", "-fanmin", "50", "-tt", "70", "-tstop", "90" ]
-CMD ["/usr/local/bin/docker-entrypoint.sh", "-mode", "1", "-ftime", "10", "-fanmin", "50", "-tt", "70", "-tstop", "90" ]
+CMD ["/usr/local/bin/docker-entrypoint.sh", "-mode", "1", "-ftime", "10", "-fanmin", "50", "-tt", "70", "-tstop", "90", "-colors", "0" ]

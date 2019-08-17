@@ -1,4 +1,4 @@
-FROM wesparish/nvidia:384.90
+FROM nvidia/cuda:9.0-runtime
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -qq update \
  && apt-get install -yqq --no-install-recommends \
@@ -7,13 +7,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -qq update \
 	libcurl3 \
         curl \
         ca-certificates  \
+        ocl-icd-opencl-dev \
  && apt-get -yqq clean \
  && rm -rf /var/lib/apt/lists/*
 
-#ENV CLAYMORE_VERSION="10.0"
-
 WORKDIR /home/claymore
-RUN curl -Lso claymore.tar.gz "https://nexus.cowtownt.org/repository/mining-repo/claymore/Claymore's%20Dual%20Ethereum+Decred_Siacoin_Lbry_Pascal_Blake2s_Keccak%20AMD+NVIDIA%20GPU%20Miner%20v11.5%20-%20LINUX.tar.gz" && \
+RUN curl -Lso claymore.tar.gz "https://nexus-jamie.elastiscale.net/repository/mining-repo/claymore/Claymore's%20Dual%20Ethereum%20AMD+NVIDIA%20GPU%20Miner%20v14.7%20-%20LINUX.tar.gz" && \
     tar -xzf claymore.tar.gz && \
     mv Claymore*/* . && \
     rm -f claymore.tar.gz
@@ -31,4 +30,4 @@ EXPOSE 3333
 LABEL miner="true"
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-CMD ["-mode", "1", "-ftime", "10", "-fanmin", "50", "-tt", "70", "-tstop", "90"  ]
+CMD ["-mode", "1", "-ftime", "10", "-fanmin", "50", "-tt", "70", "-tstop", "90", "-colors", "0" ]
