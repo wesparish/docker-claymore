@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-set -eo pipefail
+#set -eo pipefail
 
 EPOOLS="/home/claymore/epools.txt"
 
 #HOSTNAME=$(curl -s rancher-metadata/latest/self/host/name | cut -d'.' -f1)
-HOSTNAME=${NODENAME:-localhost}
+HOSTNAME=${NODE_NAME:-localhost}
 
 [ -f $EPOOLS ] && rm $EPOOLS || true
 
